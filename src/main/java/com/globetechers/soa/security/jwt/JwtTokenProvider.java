@@ -2,15 +2,14 @@ package com.globetechers.soa.security.jwt;
 
 import java.security.Key;
 import java.util.Date;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
 import com.globetechers.soa.domain.model.UsuarioModel;
-
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -39,7 +38,7 @@ public class JwtTokenProvider {
         Key key = key();
 
         return Jwts.builder()
-                .setSubject(usuarioPrincipal.getUsername()) 
+                .setSubject(usuarioPrincipal.getUsername()) // normalmente email ou login
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(key, SignatureAlgorithm.HS256)
@@ -61,7 +60,10 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String authToken) {
         try {
-            Jwts.parser().setSigningKey(key()).build().parse(authToken);
+            Jwts.parser()
+                    .setSigningKey(key())
+                    .build()
+                    .parse(authToken);
             return true;
         } catch (MalformedJwtException e) {
             logger.error("Token JWT inválido: {}", e.getMessage());
@@ -75,5 +77,13 @@ public class JwtTokenProvider {
             logger.error("Assinatura JWT inválida: {}", e.getMessage());
         }
         return false;
+    }
+
+    public UsernamePasswordAuthenticationToken getAuthentication(String token, UserDetails userDetails) {
+        return new UsernamePasswordAuthenticationToken(
+                userDetails,
+                null,
+                userDetails.getAuthorities()
+        );
     }
 }

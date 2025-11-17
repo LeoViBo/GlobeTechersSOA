@@ -11,7 +11,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
+import jakarta.persistence.PrePersist;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -58,6 +58,7 @@ public class UsuarioModel implements UserDetails {
 
     @NotNull
     @Column(name = "DATA_CADASTRO")
+    @Builder.Default
     private LocalDate dataCadastro = LocalDate.now();
 
     @ElementCollection(fetch = FetchType.EAGER)
@@ -66,6 +67,13 @@ public class UsuarioModel implements UserDetails {
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private Set<RoleEnum> roles = Collections.singleton(RoleEnum.ROLE_USER);
+
+    @PrePersist
+    public void prePersist() {
+        if (this.dataCadastro == null) {
+            this.dataCadastro = LocalDate.now();
+        }
+    }
 
     public List<String> getRoles() {
         return roles.stream()
