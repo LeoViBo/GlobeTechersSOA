@@ -22,7 +22,7 @@ public class UsuarioResponseDTO {
         if (model == null) return null;
         return UsuarioResponseDTO.builder()
                 .id(model.getId())
-                .nomeCompleto(model.getNomeCompleto())
+                .nomeCompleto(model.getNome())
                 .email(model.getUsername())
                 .areaAtuacao(model.getAreaAtuacao())
                 .nivelCarreira(model.getNivelCarreira())

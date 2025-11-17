@@ -13,20 +13,16 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "usuarios")
-@Getter 
-@Setter 
-@NoArgsConstructor 
-@AllArgsConstructor 
-@Builder 
+@Table(name = "USUARIOSGT")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class UsuarioModel implements UserDetails {
 
     @Id
@@ -34,70 +30,79 @@ public class UsuarioModel implements UserDetails {
     private Long id;
 
     @NotBlank(message = "O nome é obrigatório.")
-    @Size(min = 3, max = 100, message = "O nome deve ter entre 3 e 100 caracteres.")
+    @Size(min = 3, max = 100)
+    @Column(name = "NOME")
     private String nome;
 
     @Embedded
-    @NotNull(message = "O Value Object de Email é obrigatório.")
+    @NotNull
+    @AttributeOverrides({
+        @AttributeOverride(name = "value", column = @Column(name = "EMAIL", nullable = false, unique = true, length = 100))
+    })
     private EmailVO email;
 
     @Embedded
-    @NotNull(message = "O Value Object de Senha é obrigatório.")
+    @NotNull
+    @AttributeOverrides({
+        @AttributeOverride(name = "value", column = @Column(name = "SENHA", nullable = false, length = 60))
+    })
     private SenhaVO senha;
 
-    @NotBlank(message = "A área de atuação é obrigatória.")
+    @NotBlank
+    @Column(name = "AREA_ATUACAO")
     private String areaAtuacao;
 
-    @NotBlank(message = "O nível de carreira é obrigatória.")
+    @NotBlank
+    @Column(name = "NIVEL_CARREIRA")
     private String nivelCarreira;
 
-    @NotNull(message = "A data de cadastro é obrigatória.")
+    @NotNull
+    @Column(name = "DATA_CADASTRO")
     private LocalDate dataCadastro = LocalDate.now();
-    
+
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "usuario_roles", joinColumns = @JoinColumn(name = "usuario_id"))
+    @CollectionTable(name = "USUARIO_ROLES", joinColumns = @JoinColumn(name = "USUARIO_ID"))
+    @Column(name = "ROLES")
     @Enumerated(EnumType.STRING)
-    @Builder.Default 
+    @Builder.Default
     private Set<RoleEnum> roles = Collections.singleton(RoleEnum.ROLE_USER);
+
     public List<String> getRoles() {
-        return this.roles.stream()
+        return roles.stream()
                 .map(Enum::name)
                 .collect(Collectors.toList());
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles.stream()
+        return roles.stream()
                 .map(role -> new SimpleGrantedAuthority(role.name()))
                 .collect(Collectors.toList());
     }
-    
-    public String getNomeCompleto() {
-        return this.nome;
+
+    @Override
+    public String getPassword() {
+        return this.senha.getValue();
     }
 
     @Override
-    public String getPassword() { return this.senha.getValue(); }
-
-    @Override
-    public String getUsername() { return this.email.getValue(); }
+    public String getUsername() {
+        return this.email.getValue();
+    }
 
     @Override
     public boolean isAccountNonExpired() { return true; }
-
     @Override
     public boolean isAccountNonLocked() { return true; }
-
     @Override
     public boolean isCredentialsNonExpired() { return true; }
-
     @Override
     public boolean isEnabled() { return true; }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof UsuarioModel)) return false;
         UsuarioModel that = (UsuarioModel) o;
         return Objects.equals(id, that.id);
     }

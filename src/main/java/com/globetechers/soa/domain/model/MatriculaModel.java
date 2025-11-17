@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
-@Table(name = "matriculas")
+@Table(name = "MATRICULASGT")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,27 +16,28 @@ public class MatriculaModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id", nullable = false)
+    @JoinColumn(name = "USUARIO_ID", nullable = false)
     private UsuarioModel usuario;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "trilha_id", nullable = false)
+    @JoinColumn(name = "TRILHA_ID", nullable = false)
     private TrilhaModel trilha;
 
-    @Column(name = "data_inscricao", nullable = false)
+    @Column(name = "DATA_INSCRICAO", nullable = false)
     private LocalDate dataInscricao;
 
-    @Column(length = 50, nullable = false)
+    @Column(name = "STATUS", length = 50, nullable = false)
     private String status;
 
-    @ManyToMany(fetch = FetchType.EAGER) 
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-        name = "matricula_competencia",
-        joinColumns = @JoinColumn(name = "matricula_id"),
-        inverseJoinColumns = @JoinColumn(name = "competencia_id")
+        name = "MATRICULA_COMPETENCIAGT",
+        joinColumns = @JoinColumn(name = "MATRICULA_ID"),
+        inverseJoinColumns = @JoinColumn(name = "COMPETENCIA_ID")
     )
     private Set<CompetenciaModel> competencias;
 }

@@ -6,9 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Entity
-@Table(name = "TB_COMPETENCIA")
+@Table(name = "COMPETENCIAGT")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,17 +16,18 @@ public class CompetenciaModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private Long id;
 
-    @Column(nullable = false, length = 100, unique = true)
+    @Column(name = "NOME", nullable = false, length = 100, unique = true)
     private String nome;
 
-    @Column(nullable = false, length = 50)
+    @Column(name = "CATEGORIA", nullable = false, length = 50)
     private String categoria;
 
-    @Column(nullable = false, length = 1000)
+    @Column(name = "DESCRICAO", nullable = false, length = 1000)
     private String descricao;
 
-    @Column(nullable = false, length = 100)
+    @Column(name = "AREA_CONHECIMENTO", nullable = false, length = 100)
     private String areaConhecimento; 
 }

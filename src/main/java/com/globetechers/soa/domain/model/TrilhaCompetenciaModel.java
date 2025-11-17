@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "TB_TRILHA_COMPETENCIA")
+@Table(name = "TRILHA_COMPETENCIAGT")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,16 +16,17 @@ public class TrilhaCompetenciaModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "trilha_id", nullable = false)
+    @JoinColumn(name = "TRILHA_ID", nullable = false)
     private TrilhaModel trilha;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "competencia_id", nullable = false)
+    @JoinColumn(name = "COMPETENCIA_ID", nullable = false)
     private CompetenciaModel competencia;
 
-    @Column(nullable = true)
+    @Column(name = "NIVEL_ESPERADO", nullable = true)
     private Integer nivelEsperado;
 }

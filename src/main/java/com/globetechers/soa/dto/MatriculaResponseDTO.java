@@ -26,7 +26,7 @@ public class MatriculaResponseDTO {
         return MatriculaResponseDTO.builder()
                 .id(model.getId())
                 .usuarioId(model.getUsuario().getId())
-                .usuarioNome(model.getUsuario().getNomeCompleto())
+                .usuarioNome(model.getUsuario().getNome())
                 .trilhaId(model.getTrilha().getId())
                 .trilhaNome(model.getTrilha().getNome()) 
                 .dataInscricao(model.getDataInscricao())
