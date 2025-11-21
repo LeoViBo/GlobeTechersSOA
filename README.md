@@ -19,7 +19,24 @@ Empresas e instituições educacionais precisam gerenciar trilhas de aprendizage
 - Criação e gerenciamento de trilhas de aprendizagem.  
 - Relação entre trilhas, competências e perfis profissionais.  
 
-Além disso, o projeto deve fornecer endpoints limpos, seguros e documentados para facilitar testes e integração.  
+Além disso, o projeto deve fornecer endpoints limpos, seguros e documentados para facilitar testes e integração.  conectadno diretamende com as ODS 4 e 10:  
+
+**ODS 4 – Educação de Qualidade**  
+- O sistema promove acesso a trilhas de aprendizagem, cursos e conteúdos de qualificação.  
+- Apoia processos de upskilling e reskilling.
+- Fornece dados para ajudar empresas e profissionais a identificar lacunas de competências.  
+**Conexão: aprender continuamente é essencial no futuro do trabalho com IA, automação e dados.**  
+  
+**ODS 10 – Redução das Desigualdades**  
+- Democratiza o acesso à qualificação profissional.  
+- Permite que pessoas de diferentes níveis socioeconômicos tenham as mesmas oportunidades.  
+- Possibilita trilhas personalizadas que atendem perfis diversos.  
+**Conexão: combate desigualdades no acesso à educação e oportunidades de trabalho.**  
+
+Além de leves conexões com as ODS 8 e 9:  
+
+**ODS 8 – Trabalho Decente e Crescimento Econômico** - Cria ambientes mais produtivos e inclusivos no mercado de trabalho.  
+**ODS 9 – Indústria, Inovação e Infraestrutura** - Prepara trabalhadores e organizações para a economia digital.  
 
 ---
 
@@ -84,6 +101,25 @@ http://localhost:8080/swagger-ui.html
 | Flyway	| ✓ |
 | Lombok	| ✓ |
 | Swagger – Springdoc	| 2.5.0 |
+
+---
+
+## 4. Configuração do banco:
+
+**Banco de dados H2 – Ambiente de Desenvolvimento**  
+spring.datasource.url=jdbc:h2:file:./data/meu_banco  
+spring.datasource.username=sa  
+spring.datasource.password=  
+spring.datasource.driverClassName=org.h2.Driver  
+
+**Console Web do H2**  
+spring.h2.console.enabled=true  
+spring.h2.console.path=/h2-console  
+
+**JPA / Hibernate**  
+spring.jpa.hibernate.ddl-auto=update  
+spring.jpa.show-sql=true  
+spring.jpa.properties.hibernate.format_sql=true  
 
 ---
 
@@ -184,8 +220,7 @@ http://localhost:8080/h2-console
 1. Crie um usuário  
 2. Faça login com email + senha  
 3. Copie o token retornado  
-4. Adicione em cada requisição:  
-- Authorization → Bearer Token → seu_token  
+4. Adicione em cada requisição: Authorization → Bearer Token → seu_token  
 5. Teste as rotas de Usuários e Trilhas  
 6. Verifique no H2 se os dados foram salvos  
 
