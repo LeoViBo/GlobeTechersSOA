@@ -4,10 +4,10 @@ API desenvolvida em Java 21 + Spring Boot 3.5.7 com autenticação JWT, banco H2
 
 ---
 
-Grupo GlobeTechers:
-Gabriel Augusto Maciel Toledo - RM: 551654
-Leonardo Viotti Bonini - RM: 551716
-Vinicius Santos Yamashita de Farias - RM: 550908
+## Grupo GlobeTechers:  
+Gabriel Augusto Maciel Toledo - RM: 551654  
+Leonardo Viotti Bonini - RM: 551716  
+Vinicius Santos Yamashita de Farias - RM: 550908  
 
 ---
 
