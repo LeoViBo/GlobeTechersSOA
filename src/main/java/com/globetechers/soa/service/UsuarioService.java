@@ -69,7 +69,7 @@ public class UsuarioService implements UserDetailsService {
                 .token(jwt)
                 .idUsuario(usuario.getId())
                 .login(usuario.getEmail().getValue()) 
-                .roles(usuario.getRoles()) 
+                .roles(usuario.getRolesAsString())
                 .build();
     }
 

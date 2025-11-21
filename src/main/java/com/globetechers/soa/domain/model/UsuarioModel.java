@@ -11,7 +11,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import jakarta.persistence.PrePersist;
+
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -75,10 +75,12 @@ public class UsuarioModel implements UserDetails {
         }
     }
 
-    public List<String> getRoles() {
-        return roles.stream()
-                .map(Enum::name)
-                .collect(Collectors.toList());
+    /**
+     * Retorna as roles como lista de strings para popular DTOs.
+     */
+    public List<String> getRolesAsString() {
+        if (roles == null) return List.of();
+        return roles.stream().map(Enum::name).collect(Collectors.toList());
     }
 
     @Override
@@ -100,10 +102,13 @@ public class UsuarioModel implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() { return true; }
+
     @Override
     public boolean isAccountNonLocked() { return true; }
+
     @Override
     public boolean isCredentialsNonExpired() { return true; }
+
     @Override
     public boolean isEnabled() { return true; }
 
